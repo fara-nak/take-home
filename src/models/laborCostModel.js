@@ -13,6 +13,8 @@ const fetchCostByWorker = async (workerIds, isComplete) => {
             taskSql += ` WHERE is_complete = ?`
             params.push(isComplete)
         }
+
+        // Actual query to calculate cost and filter it based on workIds and isCompleted params
         const sql = `
             WITH t AS ( ${taskSql} ),
             w AS (
@@ -58,6 +60,7 @@ const fetchCostByLocation = async (locationIds, isComplete) => {
     }
     try {
         connection = await db.getConnection()
+        // Actual query to calculate cost and filter it based on locationIds and isCompleted params
         const sql = `
             WITH TaskLaborCost AS (${taskFilterSQL}),
             WorkerWages AS (

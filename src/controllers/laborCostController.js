@@ -1,7 +1,7 @@
 import createCustomResponse from '../errors/errorHandling.js'
 import laborCostModel from '../models/laborCostModel.js'
 
-// Get response back from the api call and split workerIds/locationIds and send it over to the actual function to query the db
+// Get response back from the api call and split workerIds and send it over to the actual function to query the db
 const getCostByWorker = async (req, res) => {
     try {
         const { workerIds, isComplete } = req.query
@@ -18,6 +18,7 @@ const getCostByWorker = async (req, res) => {
     }
 }
 
+// Get response back from the api call and split locationIds and send it over to the actual function to query the db
 const getCostByLocation = async (req, res) => {
     try {
         const { locationIds, isComplete } = req.query

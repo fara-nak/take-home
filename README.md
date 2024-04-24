@@ -34,3 +34,19 @@ by bringing the DB container down:
 ```bash
 docker compose down
 ```
+
+## BUILD
+
+To build and run the app you can first install all dependencies using "npm i" and then use this command:
+
+```bash
+docker-compose up --build
+```
+
+## TEST
+
+To run test you can use this command:
+
+```bash
+npm run test
+```

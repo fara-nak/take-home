@@ -52,7 +52,7 @@ async function insertWorkers(conn) {
         )
     }
 }
-
+// Added a new col for "is_complete" to be able to provide filtering for completed tasks vs incompleted
 async function insertTasks(conn) {
     const tasks = [
         {

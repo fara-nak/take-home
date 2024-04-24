@@ -41,9 +41,9 @@ describe('GET /worker', () => {
                 location: 'query',
                 value: '123',
                 path: 'isComplete',
-                type: 'field'
-            }
-        ]);
+                type: 'field',
+            },
+        ])
     })
 })
 
@@ -84,8 +84,8 @@ describe('GET /location', () => {
                 location: 'query',
                 value: '123',
                 path: 'isComplete',
-                type: 'field'
-            }
-        ]);
-    });
+                type: 'field',
+            },
+        ])
+    })
 })
