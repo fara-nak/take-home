@@ -1,14 +1,19 @@
-import db from "../config/dbConfig.js";
+import db from '../config/dbConfig.js'
+import createCustomResponse from '../errors/errorHandling.js'
 
 const fetchCostByWorker = async (workerIds, isComplete) => {
-  let connection;
-  try {
-    connection = await db.getConnection();
-    let taskSql = `SELECT id FROM tasks`;
-    if (isComplete != undefined) {
-      taskSql += ` WHERE is_complete = ${isComplete}`;
-    }
-    const sql = `
+    let connection
+    let params = []
+    try {
+        connection = await db.getConnection()
+
+        // Handling sql injection security issue by seperating queries and passing params as an array
+        let taskSql = `SELECT id FROM tasks`
+        if (isComplete != undefined) {
+            taskSql += ` WHERE is_complete = ?`
+            params.push(isComplete)
+        }
+        const sql = `
             WITH t AS ( ${taskSql} ),
             w AS (
                 SELECT id, hourly_wage
@@ -19,22 +24,22 @@ const fetchCostByWorker = async (workerIds, isComplete) => {
             FROM logged_time
             JOIN t ON logged_time.task_id = t.id
             JOIN w ON logged_time.worker_id = w.id
-            GROUP BY worker_id`;
-
-    return await connection.query(sql, [workerIds], (err, results) => {
-      console.log(err);
-      console.log(results);
-    });
-  } catch (error) {
-    throw error;
-  } finally {
-    if (connection) connection.release();
-  }
-};
+            GROUP BY worker_id`
+        params.push(workerIds)
+        return await connection.query(sql, params)
+    } catch (error) {
+        throw createCustomResponse(error, 'failed to run fetchCostByWorker')
+    } finally {
+        if (connection) connection.release() // Releasing all connection after we're done with database
+    }
+}
 
 const fetchCostByLocation = async (locationIds, isComplete) => {
-  let connection;
-  let taskFilterSQL = `
+    let connection
+    let params = []
+
+    // Handling sql injection security issue by seperating queries and passing params as an array
+    let taskFilterSQL = `
             SELECT 
                 tasks.location_id,
                 logged_time.worker_id,
@@ -45,15 +50,15 @@ const fetchCostByLocation = async (locationIds, isComplete) => {
                 tasks ON logged_time.task_id = tasks.id
             WHERE 
                 tasks.location_id IN (?)
-        `;
-
-  // Append the completion condition if isComplete is not undefined
-  if (isComplete !== undefined) {
-    taskFilterSQL += ` AND tasks.is_complete = ${isComplete}`;
-  }
-  try {
-    connection = await db.getConnection();
-    const sql = `
+        `
+    params.push(locationIds)
+    if (isComplete !== undefined) {
+        taskFilterSQL += ` AND tasks.is_complete = ?`
+        params.push(isComplete)
+    }
+    try {
+        connection = await db.getConnection()
+        const sql = `
             WITH TaskLaborCost AS (${taskFilterSQL}),
             WorkerWages AS (
                 SELECT 
@@ -73,15 +78,13 @@ const fetchCostByLocation = async (locationIds, isComplete) => {
             SELECT 
                 location,
                 total_labor_cost
-            FROM LaborCostPerLocation`;
-    const results = await connection.query(sql, [locationIds]);
-    return results;
-  } catch (error) {
-    console.error("error:", error);
-    throw error;
-  } finally {
-    if (connection) connection.release();
-  }
-};
+            FROM LaborCostPerLocation`
+        return await connection.query(sql, params)
+    } catch (error) {
+        throw createCustomResponse(error, 'failed to run fetchCostByLocation')
+    } finally {
+        if (connection) connection.release() // Releasing all connection after we're done with database
+    }
+}
 
-export default { fetchCostByWorker, fetchCostByLocation };
+export default { fetchCostByWorker, fetchCostByLocation }
