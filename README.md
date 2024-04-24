@@ -35,15 +35,18 @@ by bringing the DB container down:
 docker compose down
 ```
 
-## RESULT
+## Result
 
-If everything goes well with the setup you should be able to run the server locally and in your browser you should be able to run "http://localhost:3000/" and see:
+If everything goes well with the setup you should be able to run the server locally and in your browser you should be able to run `localhost:3000` and see:
+
 ![alt text](image.png)
 
-Also if you navigate to /worker endpoint via "http://localhost:3000/worker?workerIds=1,2,3&isComplete=false" you should see:
+Also if you navigate to /worker endpoint via `localhost:3000/worker?workerIds=1,2,3&isComplete=false` you should see:
+
 ![alt text](image-1.png)
 
-similarly, if you run: "http://localhost:3000/worker?workerIds=1,2,3&isComplete=true" you should see the result as:
+similarly, if you run: `"http://`localhost:3000/worker?workerIds=1,2,3&isComplete=true` you should see the result as:
+
 ![alt text](image-2.png)
 
 same for "/location" endpoints
@@ -51,7 +54,10 @@ same for "/location" endpoints
 ## TODO
 
 This is a quick demo of what can be done, there are many things that can be improved. such as:
-    - Using better approach to generate and use data such as ORM method
-    - Having integration test using a seperate Docker for testing
-    - Optimising Queries for more readability and performance
-    - More efficient error handling, custome errors and approaches to handle an error
+
+```markdown
+* Using better approach to generate and use data such as ORM method
+* Having integration test using a seperate Docker for testing
+* Optimising Queries for more readability and performance
+* More efficient error handling, custome errors and approaches to handle an error
+```
