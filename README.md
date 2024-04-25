@@ -39,17 +39,17 @@ docker compose down
 
 If everything goes well with the setup you should be able to run the server locally and in your browser you should be able to run `localhost:3000` and see:
 
-![alt text](image.png)
+![alt text](src/assets/main.png)
 
 Also if you navigate to /worker endpoint via `localhost:3000/worker?workerIds=1,2,3&isComplete=false` you should see:
 
-![alt text](image-1.png)
+![alt text](src/assets/worker_1.png)
 
-similarly, if you run: `"http://`localhost:3000/worker?workerIds=1,2,3&isComplete=true` you should see the result as:
+similarly, if you run: `localhost:3000/worker?workerIds=1,2,3&isComplete=true` you should see the result as:
 
-![alt text](image-2.png)
+![alt text](src/assets/worker_2.png)
 
-same for "/location" endpoints
+same for "/location" endpoints.
 
 ## TODO
 

@@ -13,11 +13,11 @@ async function setup() {
     app.use('/', router)
 
     // just for fun :)
-    app.use('/images', express.static(path.join('./', 'images')))
+    app.use('/assets', express.static(path.join('./', 'assets')))
     app.get('/', (req, res) => {
         res.send(`
       <h1>Welcome to Limble CMMS demo :)</h1>
-      <img src="/images/limble.png" alt="Limble Image"></img>`)
+      <img src="/assets/limble.png" alt="Limble Image"></img>`)
     })
 }
 
