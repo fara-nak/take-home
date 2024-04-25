@@ -1,3 +1,10 @@
+-- in order to test my code I added this so I don't get duplication error
+DROP TABLE IF EXISTS locations;
+DROP TABLE IF EXISTS tasks;
+DROP TABLE IF EXISTS workers;
+DROP TABLE IF EXISTS logged_time;
+
+-- Data schema
 CREATE TABLE locations (
   id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(30) NOT NULL UNIQUE
@@ -6,6 +13,7 @@ CREATE TABLE locations (
 CREATE TABLE tasks (
   id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   description VARCHAR(100) NOT NULL,
+  is_complete BOOLEAN,
 
   location_id INT(11) NOT NULL,
 
